@@ -21,3 +21,6 @@ A quick introduction: `vignette("intro-to-gblup")`
 
 6) implement high-throughput functions for massively paralell phenotypes
 
+7) include functions for GWA peak annotation from genomic dBs
+
+8) make memory efficient for extra-large systems of equations (seveal 10000s animals)
