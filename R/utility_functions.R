@@ -140,6 +140,4 @@ varcomp <- function(gblup) {
     h2 <- re[, 1]/sum(re[, 1])
     re <- data.frame(re, prop.var = h2)
     return(re)
-}
-
- 
+} 

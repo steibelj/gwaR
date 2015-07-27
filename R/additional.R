@@ -164,9 +164,9 @@ plot.GWAS <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
     # get the significance level
     if (correction == "bonf") {
         # Get the value that will be the threshold for those p values
-        threshold <- pvalue/(2 * nrow(gwas))
+        threshold <- pvalue/nrow(gwas)
     } else {
-        threshold <- (pvalue/2)
+        threshold <- pvalue
         warning("no multiple test correction")
     }
     
