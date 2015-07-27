@@ -28,3 +28,7 @@ test_that("testing plots",{
   expect_that(plot(gwas=gwtst,correction="none",gpdata=MSUPRP_sample,
                    plotlog10=F,pvalue=0.05,q.qplot=F),equals(pvals))
 })
+
+sm<-summary(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)),fe=T,sigma=T,ehat=T)
+anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
+
