@@ -1,6 +1,6 @@
 ---
-title: "Introduction to GBLUP"
-author: "Juan P. Steibel"
+title: "Introduction to gwaR"
+author: "Juan P. Steibel, Yeni Liliana Bernal Rubio, Jose Luis Gualdron Duarte, Sebastian Casiro and Deborah Velez"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -9,50 +9,119 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+The package `gwaR` is used to perform genome-wide association using a GBLUP animal model. It is a computationally efficient way of implementing the EMMAZ algorithm. 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+There are two basic functions in `gwar`: `gblup` fits a genomic blup model and `gwas` performs the association testing. The main characteristic of this package are: 
 
-## Vignette Info
+- Accepts `gpData` objects from package `synbreed` as input data. It can also use input objects for `rrblup` package
+- Uses REML engine from package `regress` to fit gblup models
+- It accepts any general linear model specification for fixed and random effects
+- It implements proprietary code to estimate SNP effects and to perform tests for GWA
+- It is computationally efficient: it can solve systems of equations with 1000s or records and 1000000s of markers in a few minutes/hours
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
 
-## Styles
+## Basic Model: GBLUP 
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+The basic model used by `gwar` is:
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+$$
+\boldsymbol{y} = \boldsymbol{X}\cdot \boldsymbol{b}+\boldsymbol{u}_g+\sum_{i}{\boldsymbol{Z}_i \cdot \boldsymbol{u}_i} + \boldsymbol{e},
+$$
+where:
 
-## Figures
+- $\boldsymbol{y}$ is the vector of response variables
+- $\boldsymbol{X}\cdot \boldsymbol{b}$ models the fixed effects
+- $\boldsymbol{u}_g$ is the "genetic" effect that will be used to perform GWA, assumed $\boldsymbol{u}_g \sim N\left ( \boldsymbol{0},\sigma_{g}^{2} \boldsymbol{A} \right )$
+- $sum_{i}{\boldsymbol{Z}_i \cdot \boldsymbol{u}_i}$ are other random effects,  $\boldsymbol{u}_i \sim N\left ( \boldsymbol{0},\sigma_{i}^{2} \boldsymbol{G_i} \right )$
+- $\boldsymbol{e}$ are the vector of effects residual, $\boldsymbol{e} \sim N\left ( \boldsymbol{0},\sigma_{e}^{2} \boldsymbol{R} \right )$
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+Notice that the variance-covariance matrix of the fixed effect, $\boldsymbol{A}$, can be any relationship matrix based on pedigrees or on genome-wide markers.
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+## GWA algorithm
+
+It can be shown that given a genotype dosage matrix $\boldsymbol{Z}_g$, with animals in rows and markers in columns, the marker effects can be estimated with:
+$$
+\boldsymbol{\widehat{g}}= \boldsymbol{Z}_{g}^{'} \cdot \boldsymbol{A}^{-1} \boldsymbol{\widehat{u}_g}
+$$
+
+Moreover, we have shown that the variances associated with the estimated SNP effects can be computed from the variance co-variance matrix of the BLUP of $\boldsymbol{u}_g$ :
+
+$$
+var(\widehat{g}_j) = {\boldsymbol{Z_j}}_{g}^{'} \cdot \boldsymbol{A}^{-1} \cdot var(\widehat{u}_g) \cdot \boldsymbol{A}^{-1} \cdot {\boldsymbol{Z_j}}_{g}
+$$
+
+where,
+
+$\boldsymbol{Z_j}$ is the jth column of the genotypic matrix, associated with the jth snp.
+
+### Computation with GLS equations
+
+The package `regress` uses the GLS equations, thus we can exploit the matrices already computed by `regress` in estimating model parameters as follows. The GLS model is:
+
+$$
+\boldsymbol{y} = \boldsymbol{X}\cdot \boldsymbol{b}+ \boldsymbol{\epsilon}
+$$
+with,
+$$
+var(\boldsymbol{\epsilon}) = \boldsymbol{V}=\sigma_{g}^{2} \boldsymbol{A}+\sum_{i} { \sigma_{i}^{2} \cdot \boldsymbol{Z}_i \cdot \boldsymbol{G_i} \cdot \boldsymbol{Z}_i^{'} } + \sigma_{e}^{2} \boldsymbol{R}
+$$
+
+Then, the estimated SNP effects are:
+$$
+\boldsymbol{\widehat{g}}= \sigma_{g}^{2} \boldsymbol{Z}_{g}^{'} \cdot \boldsymbol{V}^{-1} \boldsymbol{\widehat{\epsilon}}
+$$
+and
+$$
+ \boldsymbol{\widehat{\epsilon}}=\boldsymbol{y}-\boldsymbol{X} \cdot \boldsymbol{\widehat{b}}=\boldsymbol{Q} \cdot \boldsymbol{y}=\left ( \boldsymbol{I}-\boldsymbol{X} \boldsymbol{(X^{'}V^{-1}X)^{-1})X^{'}V^{-1}} \right )\boldsymbol{y}
+$$
+From these expression, it is easy to show:
+$$
+var(\widehat{g}_j) ={\sigma_{g}^{2}}^2 {\boldsymbol{Z_j}}_{g}^{'} \cdot \boldsymbol{V}^{-1} \cdot \boldsymbol{Q} \cdot \boldsymbol{V} \cdot\boldsymbol{Q} \cdot \boldsymbol{V}^{-1} \cdot {\boldsymbol{Z_j}}_{g}
+$$
+
+We have shown that the resulting test statistic: $t_j = {\widehat{g_j} \over {\sqrt{var(\widehat{g_j})}}}$ is equivalent to a fixed SNP effect test under the model:
+
+$$
+\boldsymbol{y} = \boldsymbol{X}\cdot \boldsymbol{b}+{\boldsymbol{Z_j}}_{g} \cdot \widehat{g_j}+ \boldsymbol{\epsilon}
+$$
+
+under the assumtion of known and fixed variance ratios estimated under the null model (without the SNP effect) $\lambda_i= {\sigma_{i}^{2} \over \sigma_{e}^{2}}, \lambda_g= {\sigma_{g}^{2} \over \sigma_{e}^{2}}$
+This is: assuming that $\boldsymbol{V}$ is known up to a proportionality constant $\left ( \sigma_{e}^{2} \right )$, when it was estimated from the null model.
+
+
+##Example
+We will use a toy dataset from the MSUPRP population to illustrate the use of `gwaR`
+
+###Load packages and data
+```{r}
+library(gwaR)
+library(regress)
+library(synbreed)
+data("MSUPRP_sample")
+data("Z_G")
+
+summary(MSUPRP_sample)
+dim(Z_thin)
+dim(A)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+###Fit GBLUP model
+We assume a model with fixed effects: sex and carcass weight (covariate). The only random effect is the one represented by the polygenic effect with variance-covariance matrix `A`
+```{r}
+design_G<-~sex+car_wt
+bl<-gblup(rsp="driploss",data=MSUPRP_sample,design=design_G,A,pos=c(T,T))
+bl
 ```
 
-Also a quote using `>`:
+###GWA from GBLUP
+We now perform GWA and obtain a quick summary of results. Notice we don't apply multiple test correction, but real data applications should use multiple test corrections such as bonferroni or FDR.
+```{r}
+gw<-GWAS(bl,t(Z_thin))
+head(gw)
+summary(gw,correction = "none")
+```
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+###graphics and pvalues
+```{r}
+pv<-plot(gw,gpdata=MSUPRP_sample,plotlog10=T,q.qplot=T,pvalue=0.0001,correction="none")
+```

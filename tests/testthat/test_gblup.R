@@ -31,4 +31,6 @@ test_that("testing plots",{
 
 sm<-summary(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)),fe=T,sigma=T,ehat=T)
 anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
+plot(GWAS(x=t(Z_thin),gblup=tst))
+GWAS
 
