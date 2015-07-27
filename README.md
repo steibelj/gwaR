@@ -24,3 +24,7 @@ A quick introduction: `vignette("intro-to-gblup")`
 7) include functions for GWA peak annotation from genomic dBs
 
 8) make memory efficient for extra-large systems of equations (seveal 10000s animals)
+
+9) implement META-ANALYSIS according to Yeni's paper
+
+10) implement shrinkage tests according to Misztal's groups papers
