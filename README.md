@@ -11,7 +11,7 @@ A quick introduction: `vignette("intro-to-gblup")`
 ###Future commits:
 1) improve documentation to expand to other capabilities
 
-2) improve plot functions: better graphics and separate p-value computation
+2) improve plot functions: better graphics
 
 3) include predict method
 
