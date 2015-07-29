@@ -8,17 +8,17 @@
 #'    \item {\code{ghat}} {estimated SNP effects} 
 #'    \item{\code{varg}} {estimated SNP effect variances}
 #'}
-#'  @seealso \code{\link{summary.GWAS}} \code{\link{plot.GWAS}}
+#'  @seealso \code{\link{summary.gwas}} \code{\link{plot.gwas}}
 #'  @export
 
 
-GWAS <- function(gblup, x) UseMethod("GWAS")
+gwas <- function(gblup, x) UseMethod("gwas")
 
 
-#'  @rdname GWAS
+#'  @rdname gwas
 #'  @export
 
-GWAS.default <- function(gblup, x) {
+gwas.default <- function(gblup, x) {
     
     # Check points Check that the class of gwas is gblup
     if (class(gblup) != "gblup") 
@@ -43,6 +43,6 @@ GWAS.default <- function(gblup, x) {
     var_ghat <- tZViQVQViZ * (gblup[["sigma"]][["G"]])^2
     
     g_res <- data.frame(ghat = ghat, var_ghat = var_ghat)
-    class(g_res) <- c("GWAS", "data.frame")
+    class(g_res) <- c("gwas", "data.frame")
     return(g_res)
 } 

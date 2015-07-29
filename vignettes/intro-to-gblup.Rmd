@@ -116,7 +116,7 @@ bl
 ###GWA from GBLUP
 We now perform GWA and obtain a quick summary of results. Notice we don't apply multiple test correction, but real data applications should use multiple test corrections such as bonferroni or FDR.
 ```{r}
-gw<-GWAS(bl,t(Z_thin))
+gw<-gwas(bl,t(Z_thin))
 head(gw)
 summary(gw,correction = "none")
 ```

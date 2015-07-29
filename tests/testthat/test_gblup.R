@@ -17,7 +17,7 @@ test_that("summary gblup",{
 
 
 test_that("testing gwa ",{
-  expect_that(GWAS(x=t(Z_thin),gblup=tst),equals(gwtst))
+  expect_that(gwas(x=t(Z_thin),gblup=tst),equals(gwtst))
 })
 
 test_that("testing gwa summary",{
@@ -31,6 +31,9 @@ test_that("testing plots",{
 
 sm<-summary(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)),fe=T,sigma=T,ehat=T)
 anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
-plot(GWAS(x=t(Z_thin),gblup=tst),pvalue=0.0001)
-GWAS
+
+gw<-gwas(x=t(Z_thin),gblup=tst)
+gw
+plot(gwas(x=t(Z_thin),gblup=tst),pvalue=0.0001)
+
 
