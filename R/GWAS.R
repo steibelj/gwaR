@@ -24,26 +24,20 @@ GWAS.default <- function(gblup, x) {
     if (class(gblup) != "gblup") 
         stop("input must be a gblup object")
     
-    # Filter x so it has the same observations that were previousley filter in GLBUP
-    idxa <- rownames(gblup[["Vinv"]]) %in% colnames(x)
-    gblup[["Vinv"]] <- gblup[["Vinv"]][idxa, idxa]
-    idx <- match(rownames(gblup[["Vinv"]]), colnames(x), )
-    x <- x[, idx]
+    Vinve <- gblup[["Vinv"]] %*% gblup[["ehat"]]
     
-    # filter all the other parts of the gblup
-    gblup[["ehat"]] <- gblup[["ehat"]][idxa]
-    gblup[["Q"]] <- gblup[["Q"]][idxa, idxa]
-    gblup[["V"]] <- gblup[["V"]][idxa, idxa]
+    idx <- Reduce(intersect, list(colnames(x), rownames(gblup[["Vinv"]])))
     
     # calculate the g hat
-    ghat <- gblup[["sigma"]][["G"]] * (x %*% (gblup[["Vinv"]] %*% gblup[["ehat"]]))
+    ghat <- gblup[["sigma"]][["G"]] * crossprod(t(x[, idx]), Vinve[idx, ])
     
     # Calculate Vinv Q V t(Q) Vinv
-    VinvQ <- gblup[["Vinv"]] %*% gblup[["Q"]]
-    VinQVQtVin <- VinvQ %*% gblup[["V"]] %*% t(VinvQ)
+    VinQVQtVin <- gblup[["Vinv"]] %*% gblup[["Q"]] %*% gblup[["V"]] %*% t(gblup[["Q"]]) %*% gblup[["Vinv"]]
+    colnames(VinQVQtVin) <- rownames(VinQVQtVin)
     
     # apply the function cros prod
-    tZViQVQViZ <- diagprod(x, VinQVQtVin)
+    tZViQVQViZ <- diagprod(x[, idx], VinQVQtVin[idx, idx])
+    
     
     # Calculate the Variance of the G hat
     var_ghat <- tZViQVQViZ * (gblup[["sigma"]][["G"]])^2

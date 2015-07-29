@@ -1,6 +1,6 @@
 ---
 title: "Introduction to gwaR"
-author: "Juan P. Steibel, Yeni Liliana Bernal Rubio, Jose Luis Gualdron Duarte, Sebastian Casiro and Deborah Velez"
+author: "Juan P. Steibel, Yeni Liliana Bernal Rubio, Jose Luis Gualdron Duarte, Sebastian Casiro, Deborah Velez"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
