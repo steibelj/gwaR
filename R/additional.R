@@ -89,8 +89,8 @@ qqgplot = function(pvector, add = F, ...) {
     o = -log10(sort(pvector, decreasing = F))
     e = -log10(1:length(o)/length(o))
     if (!add) {
-        plot(e, o, ..., xlab = expression(Expected ~ ~-log[10](italic(p))), ylab = expression(Observed ~ ~-log[10](italic(p))), 
-            xlim = c(0, max(e)), ylim = c(0, max(o) + 1))
+        plot(e, o, ..., xlab = expression(Expected ~ ~-log[10](italic(p))), ylab = expression(Observed ~ 
+            ~-log[10](italic(p))), xlim = c(0, max(e)), ylim = c(0, max(o) + 1))
     } else {
         points(e, o, ...)
     }
@@ -151,12 +151,13 @@ plot.GWAS <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
         warning("no multiple test correction")
     }
     map <- na.omit(gpdata$map)
-    idx <- match(rownames(gwas),rownames(map))
-    if (any(is.na(idx))) warning("some markers in the gwa object are not present in the map")
-    map <- map[idx,c("chr","pos")]   
+    idx <- match(rownames(gwas), rownames(map))
+    if (any(is.na(idx))) 
+        warning("some markers in the gwa object are not present in the map")
+    map <- map[idx, c("chr", "pos")]
     
-    pval<-getpvalue(gwas,log.p=F)
-      
+    pval <- getpvalue(gwas, log.p = F)
+    
     if (q.qplot == TRUE) {
         qqgplot(pvector = pval, main = NULL, add = F)
     }
@@ -164,8 +165,8 @@ plot.GWAS <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
     if (plotlog10 == TRUE) {
         manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"))
     }
-        
-} 
+    
+}
 
 #'  Pvalue for blup objects
 #'  @title Significance summary for a \code{\link{GWAS}} object
@@ -173,16 +174,16 @@ plot.GWAS <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
 #'  @return a vector of p-values
 #'  @export
 
-getpvalue<-function(gwas,log.p=T){
-  if (is.null(gwas)) 
-    stop("missing GWAS object")
-  if (all(class(gwas) != "GWAS")) 
-    stop("object must be of class GWAS")  
-  # Get the standarized values of the SNP
-  snpej <- gwas[["ghat"]]/sqrt(gwas[["var_ghat"]])
-  names(snpej) <- rownames(gwas)
-  # Calculate the p value
-  pval <- (2-3*log.p)* pnorm(abs(snpej),lower.tail = F,log.p = log.p)/(log(10)^log.p)-log.p*log10(2)
-  return(pval)
-}
-
+getpvalue <- function(gwas, log.p = T) {
+    if (is.null(gwas)) 
+        stop("missing GWAS object")
+    if (all(class(gwas) != "GWAS")) 
+        stop("object must be of class GWAS")
+    # Get the standarized values of the SNP
+    snpej <- gwas[["ghat"]]/sqrt(gwas[["var_ghat"]])
+    names(snpej) <- rownames(gwas)
+    # Calculate the p value
+    pval <- (2 - 3 * log.p) * pnorm(abs(snpej), lower.tail = F, log.p = log.p)/(log(10)^log.p) - log.p * 
+        log10(2)
+    return(pval)
+} 
