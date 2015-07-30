@@ -2,7 +2,7 @@
 #' A class for GWA from a GBLUP object.  
 #' @title Estimation of SNP effects and their variances 
 #' @param gblup An object of class gblup
-#' @param x A matrix of standardized genotypes
+#' @param x A matrix of standardized genotypes with animals in columns and markers in rows
 #' @return an object of the class GWAS: a list with two vectors
 #' \itemize{ 
 #'    \item {\code{ghat}} {estimated SNP effects} 

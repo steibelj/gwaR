@@ -12,7 +12,7 @@ gwas(gblup, x)
 \arguments{
 \item{gblup}{An object of class gblup}
 
-\item{x}{A matrix of standardized genotypes}
+\item{x}{A matrix of standardized genotypes with animals in columns and markers in rows}
 }
 \value{
 an object of the class GWAS: a list with two vectors

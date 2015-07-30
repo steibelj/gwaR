@@ -29,6 +29,11 @@ test_that("testing plots",{
                    plotlog10=F,pvalue=0.05,q.qplot=F),equals(pvals))
 })
 
+design_G<-c(~sex+car_wt,~slgdt_cd)
+design_G<-c(~sex+car_wt+slgdt_cd)
+
+gb<-gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,G_autosome,pos=c(T,T))
+
 sm<-summary(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)),fe=T,sigma=T,ehat=T)
 anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
 
