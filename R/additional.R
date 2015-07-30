@@ -159,11 +159,11 @@ plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
     pval <- getpvalue(gwas, log.p = F)
     
     if (q.qplot == TRUE) {
-        qqgplot(pvector = pval, main = NULL, add = F)
+        qqgplot(pvector = pval, main = NULL, add = F,...)
     }
     
     if (plotlog10 == TRUE) {
-        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"))
+        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"),...)
     }
     
 }
