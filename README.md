@@ -17,7 +17,7 @@ A quick introduction: `vignette("intro-to-gblup")`
 
 4) implement multi-core computation
 
-5) implement LRT for forward model comparison
+5)  DONE: LRT functions for forward, backward comparison
 
 6) implement high-throughput functions for massively paralell phenotypes
 
