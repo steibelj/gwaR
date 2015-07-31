@@ -51,5 +51,6 @@ gp<-gblup(rsp="temp_24h",data=MSUPRP_sample,design=designp,vdata=list(G_autosome
 test.peak(gb,t(Z_thin),pks)
 
 plot(gwas(x=t(Z_thin),gblup=tst),pvalue=0.0001)
+tst
 
 

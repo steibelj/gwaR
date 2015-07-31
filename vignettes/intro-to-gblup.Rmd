@@ -127,6 +127,11 @@ plot(gw,gpdata=MSUPRP_sample,plotlog10=T,q.qplot=T,pvalue=0.0001,correction="non
 logpval<-getpvalue(gw)
 summary(logpval)
 ```
+let's zoom into chromosomes 1 and 17
+```{r}
+plot(gw,gpdata=MSUPRP_sample,plotlog10=T,chrom=c(1,17),pvalue=0.0001,correction="none")
+```
+
 
 ###simultaneous GWA and GBLUP
 ```{r}

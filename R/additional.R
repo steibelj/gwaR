@@ -108,7 +108,7 @@ qqgplot = function(pvector, add = F, ...) {
 #' @return NULL. A graphic is be generated
 #'  @export
 
-manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red"), ...) {
+manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red"), chrom = NULL, ...) {
     if (!("chr" %in% colnames(map))) 
         stop("chr should be a column of map")
     if (sum(rownames(map) == names(pvalues)) < length(pvalues)) 
@@ -119,10 +119,20 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
         pvalues[pvalues == 0] <- min(pvalues[pvalues > 0])
         warning("some p-values were exactly zero and they were replaced with the next smallest value")
     }
+    if (!is.null(chrom)) {
+        idx <- as.character(map$chr) %in% as.character(chrom)
+        map <- map[idx, ]
+        pvalues <- pvalues[idx]
+    }
     if (length(col) < 2) 
         stop("two colors are needed in the color vector")
     mps <- as.numeric(as.factor(map$chr))
-    plot(-log(pvalues, 10), pch = 20, col = col[(mps%%2) + 1], ...)
+    plot(-log(pvalues, 10), pch = 20, col = col[(mps%%2) + 1], ylab = "-log10-pvalue", xlab = "chr", ..., 
+        axes = F)
+    axis(2)
+    lns <- (by(map, map$chr, nrow))
+    axis(1, at = c(0, cumsum(lns)[-length(lns)]) + as.vector(lns/2), labels = names(lns))
+    box()
     abline(h = -log(threshold, 10), lwd = 2, col = "green")
 }
 
@@ -139,7 +149,7 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
 #'  @export
 
 plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALSE, pvalue = 0.05, q.qplot = FALSE, 
-    ...) {
+    chrom = NULL, ...) {
     
     
     # get the significance level
@@ -163,7 +173,8 @@ plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
     }
     
     if (plotlog10 == TRUE) {
-        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"), ...)
+        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"), chrom = chrom, 
+            ...)
     }
     
 }

@@ -4,7 +4,8 @@
 \alias{manhattan_plot}
 \title{Manhattan plots of p-values}
 \usage{
-manhattan_plot(pvalues, map, threshold = 0.01, col = c("black", "red"), ...)
+manhattan_plot(pvalues, map, threshold = 0.01, col = c("black", "red"),
+  chrom = NULL, ...)
 }
 \arguments{
 \item{pvalues}{A vector of pvalues with SNP, marker or position names}
