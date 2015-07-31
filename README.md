@@ -9,11 +9,11 @@ To install use: `devtools::install_github("steibelj/gwaR")`
 A quick introduction: `vignette("intro-to-gblup")`
 
 ###Future commits:
-1) improve documentation to expand to other capabilities
+1) ONGOING: improve documentation to expand to other capabilities
 
-2) improve plot functions: better graphics
+2) DONE: improve plot functions: better graphics
 
-3) include predict method
+3) include predict method - DONE for training set (summary.gblup) PENDING: validation set 
 
 4) implement multi-core computation
 
