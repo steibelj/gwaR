@@ -76,7 +76,44 @@ lrt <- function(gb) {
     s2 <- s1
     s2[["G"]] <- NA
     s2[names(strt)] <- rg$sigma
+    p1 <- s1/sum(s1)
     pvalue <- pchisq(2 * tst, 1, lower.tail = F)/2
     likelihoods <- data.frame(full = gb$llik, red = rg$llik, dif = tst)
-    return(list(pvalue = pvalue, llik = likelihoods, vars = data.frame(full = s1, reduced = s2)))
+    return(list(pvalue = pvalue, llik = likelihoods, vars = data.frame(full = s1, reduced = s2, perc.full = p1)))
+}
+
+#' function for performing likelihood ratio test  \code{h_peak^2=0} of QTL peak using a \code{\link{gblup}} model   
+#' @title Likelihood ratio tests for QTL peaks 
+#' @param gb a gblup model 
+#' @param x A matrix of standardized genotypes with animals in columns and markers in rows 
+#' @param peak_pos an index vector used to select the rows (markers) of x that capture the QTL peak. if NULL: the whole x matrix is used.
+#' @return a list with elements
+#' \itemize{ 
+#'    \item {\code{pvalue}} {the pvalue of the LRT} 
+#'    \item{\code{llik}} {Log-likelihood of full model, reduced model and their difference}
+#'    \item{\code{VARS}} {a dataframe with variance component estimates under reduced and full model}
+#'}
+#'  @seealso \code{\link{gblup}} \code{\link{lrt}}
+#'  @export
+test.peak <- function(gb, x, peak_pos = NULL) {
+    if (is.null(peak_pos)) {
+        z <- x
+    } else {
+        z <- x[peak_pos, ]
+    }
+    md <- gb$model
+    md$formula <- NULL
+    md$Vformula <- NULL
+    md$G_bkg <- md$G
+    Gpeak <- t(z) %*% z
+    Gpeak <- Gpeak/mean(diag(Gpeak)) * mean(diag(md$G_bkg))
+    md$G <- Gpeak
+    new_form <- update(gb$mod$Vformula, ~. + G_bkg)
+    strt <- gb$sigma
+    strt[["G_bkg"]] <- strt[["G"]] * 0.75
+    strt[["G"]] <- strt[["G"]] * 0.25
+    
+    rg <- regress(gb$mod$formula, new_form, identity = F, data = md)
+    lt <- lrt(rg)
+    return(lt)
 } 

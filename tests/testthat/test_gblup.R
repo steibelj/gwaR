@@ -38,6 +38,18 @@ anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
 
 gw<-gwas(x=t(Z_thin),gblup=tst)
 gw
+
+pv<-getpvalue(gwas = gw)
+snpeak<-which.max(pv)
+Zpeak<-Z_thin[,(snpeak-20):(snpeak+20)]
+Gpeak<-Zpeak%*%t(Zpeak)
+Gpeak<-Gpeak/mean(diag(Gpeak))*mean(diag(G_autosome))
+designp<-c(~sex+car_wt,~G_autosome)
+gp<-gblup(rsp="temp_24h",data=MSUPRP_sample,design=designp,vdata=list(G_autosome=G_autosome),G=Gpeak,pos=c(T,T,T))
+
+
+test.peak(gb,t(Z_thin),pks)
+
 plot(gwas(x=t(Z_thin),gblup=tst),pvalue=0.0001)
 
 
