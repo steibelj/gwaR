@@ -5,7 +5,7 @@
 \title{GBLUP and GWA computation}
 \usage{
 run.gwa(rsp, data, design, G, vdata = NULL, wt = NULL, x, LRT = F,
-  threshold = 0.01, returnz = T, ...)
+  threshold = 0.01, returnz = T, saveblup = F, basename = "", ...)
 }
 \arguments{
 \item{rsp}{a string with the name of the response variable if a vector, first element is used.}

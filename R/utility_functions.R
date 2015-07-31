@@ -49,13 +49,14 @@ print.gblup <- function(gblup) {
 #'}
 #'  @seealso \code{\link{gblup}} 
 #'  @export
+#'  
 summary.gblup <- function(gblup, ehat = FALSE, sigma = FALSE, fe = FALSE) {
     # add trait name!!!
-    if (class(gblup) != "gblup") 
-        stop("input must be a gblup object")
+    
     uhat <- gblup$sigma[["G"]] * gblup$model$G %*% (gblup$Vinv %*% gblup$ehat)
     
     result <- list(uhat = uhat)
+    result$name <- gblup$name
     if (sigma) 
         result$sigma <- gblup$sigma
     if (ehat) 
