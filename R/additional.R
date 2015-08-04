@@ -9,8 +9,7 @@
 #'  @export
 
 diagprod <- function(x, y) {
-    # by using this function the user will get the diagonal elements of X Y X' Check points If x and y are
-    # matrices
+    # by using this function the user will get the diagonal elements of X Y X' Check points If x and y are matrices
     if (!(is.matrix(x))) 
         stop("x must be a matrix")
     
@@ -89,8 +88,8 @@ qqgplot = function(pvector, add = F, ...) {
     o = -log10(sort(pvector, decreasing = F))
     e = -log10(1:length(o)/length(o))
     if (!add) {
-        plot(e, o, ..., xlab = expression(Expected ~ ~-log[10](italic(p))), ylab = expression(Observed ~ 
-            ~-log[10](italic(p))), xlim = c(0, max(e)), ylim = c(0, max(o) + 1))
+        plot(e, o, ..., xlab = expression(Expected ~ ~-log[10](italic(p))), ylab = expression(Observed ~ ~-log[10](italic(p))), 
+            xlim = c(0, max(e)), ylim = c(0, max(o) + 1))
     } else {
         points(e, o, ...)
     }
@@ -127,8 +126,7 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
     if (length(col) < 2) 
         stop("two colors are needed in the color vector")
     mps <- as.numeric(as.factor(map$chr))
-    plot(-log(pvalues, 10), pch = 20, col = col[(mps%%2) + 1], ylab = "-log10-pvalue", xlab = "chr", ..., 
-        axes = F)
+    plot(-log(pvalues, 10), pch = 20, col = col[(mps%%2) + 1], ylab = "-log10-pvalue", xlab = "chr", ..., axes = F)
     axis(2)
     lns <- (by(map, map$chr, nrow))
     axis(1, at = c(0, cumsum(lns)[-length(lns)]) + as.vector(lns/2), labels = names(lns))
@@ -148,8 +146,8 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
 #'  @return a vector of pvalues with names equal to marker names. Optional output: Manhattan plot and q-qplot of pvalues
 #'  @export
 
-plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALSE, pvalue = 0.05, q.qplot = FALSE, 
-    chrom = NULL, ...) {
+plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALSE, pvalue = 0.05, q.qplot = FALSE, chrom = NULL, 
+    ...) {
     
     
     # get the significance level
@@ -173,8 +171,7 @@ plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
     }
     
     if (plotlog10 == TRUE) {
-        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"), chrom = chrom, 
-            ...)
+        manhattan_plot(map = map, pvalues = pval, threshold = threshold, col = c("black", "red"), chrom = chrom, ...)
     }
     
 }
@@ -195,7 +192,6 @@ getpvalue <- function(gwas, log.p = T) {
     snpej <- gwas[["ghat"]]/sqrt(gwas[["var_ghat"]])
     names(snpej) <- rownames(gwas)
     # Calculate the p value
-    pval <- (2 - 3 * log.p) * pnorm(abs(snpej), lower.tail = F, log.p = log.p)/(log(10)^log.p) - log.p * 
-        log10(2)
+    pval <- (2 - 3 * log.p) * pnorm(abs(snpej), lower.tail = F, log.p = log.p)/(log(10)^log.p) - log.p * log10(2)
     return(pval)
 } 

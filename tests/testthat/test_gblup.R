@@ -32,12 +32,19 @@ test_that("testing plots",{
 design_G<-c(~sex+car_wt,~slgdt_cd)
 design_G<-c(~sex+car_wt+slgdt_cd)
 
-gb<-gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,G_autosome,pos=c(T,T))
-sm<-summary(gb)
-anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
+system.time({
+gb<-gblup(rsp="ph_24h",data=MSUPRP_sample,design=design_G,G_autosome,pos=c(T,T))
+#sm<-summary(gb)
+#anova(gblup(rsp="temp_24h",data=MSUPRP_sample,design=design_G,A,pos=c(T,T)))
 
-gw<-gwas(x=t(Z_thin),gblup=tst)
+gw<-gwas(x=t(Z_thin),gblup=gb)
+})
 gw
+
+system.time({gw1<-sapply(colnames(MSUPRP_sample$pheno),run.gwa, data=MSUPRP_sample, design=design_G, G=G_autosome, x=t(Z_thin), 
+             LRT = F, threshold = 0.01, 
+             returnz = T, 
+             saveblup = F, basename = "", pos=c(T,T))})
 
 pv<-getpvalue(gwas = gw)
 snpeak<-which.max(pv)

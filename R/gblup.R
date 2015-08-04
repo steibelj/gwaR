@@ -88,8 +88,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
         stop(paste("response variable", rsp, "not present in data"))
     
     if (length(intersect(rnotgp, rnotvd)) > 0) 
-        stop(paste("these random effects are not present neither in data not in vdata:", intersect(rnotgp, 
-            rnotvd)))
+        stop(paste("these random effects are not present neither in data not in vdata:", intersect(rnotgp, rnotvd)))
     
     if (length(fnotgp) > 0) 
         stop(paste("these fixed effects are not present in data", fnotgp))
@@ -104,7 +103,8 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
         y <- data[, rsp]
         names(y) <- rownames(data)
         y <- na.omit(y)
-        ef <- na.omit(data[, c(nms, rnotvd)])
+        excols <- c(nms, rnotvd)
+        ef <- na.omit(data[, excols, drop = F])
     }
     
     Ind <- TRUE
@@ -137,7 +137,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     y <- y[idx]
     # G <- G[idx, idx]
-    ifelse(is.null(ef), NA, ef <- ef[idx, ])
+    ifelse(is.null(ef), NA, ef <- ef[idx, ,drop=FALSE])
     ifelse(is.null(wt), NA, wt <- diag(wt[idx]))
     
     
@@ -148,7 +148,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     
     
-    x <- regress(fm1, fm2, identity = Ind, data = c(ef, vdata, wt), ...)  #possible conflict if the user specifies
+    x <- regress(fm1, fm2, identity = Ind, data = c(y, ef, vdata, wt), ...)  #possible conflict if the user specifies
     # identity in the ...
     
     coefm <- rbind(cbind(x$beta, sqrt(diag(x$beta.cov))), cbind(x$sigma, sqrt(diag(x$sigma.cov))))
@@ -156,11 +156,11 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     h2 <- x$sigma[["G"]]/sum(x$sigma)
     
-    # add an option to compact the output or add the compact version to the summary and withi n the summary
-    # add the likihood ratio test save QVQ'
+    # add an option to compact the output or add the compact version to the summary and withi n the summary add the likihood
+    # ratio test save QVQ'
     
-    rst <- list(name = rsp, llik = x$llik, cycle = x$cycle, Q = x$Q, V = x$Sigma, Vinv = x$W, sigma = x$sigma, 
-        coefm = coefm, model = x$model, ehat = y - x$fitted, pos = x$pos)
+    rst <- list(name = rsp, llik = x$llik, cycle = x$cycle, Q = x$Q, V = x$Sigma, Vinv = x$W, sigma = x$sigma, coefm = coefm, 
+        model = x$model, ehat = y - x$fitted, pos = x$pos)
     class(rst) <- "gblup"
     return(rst)
 } 

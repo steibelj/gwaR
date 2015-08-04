@@ -21,8 +21,8 @@
 #'  @seealso \code{\link{gblup}} \code{\link{gwas}} \code{\link{lrt}}
 #'  @export
 
-run.gwa <- function(rsp, data, design, G, vdata = NULL, wt = NULL, x, LRT = F, threshold = 0.01, returnz = T, 
-    saveblup = F, basename = "", ...) {
+run.gwa <- function(rsp, data, design, G, vdata = NULL, wt = NULL, x, LRT = F, threshold = 0.01, returnz = T, saveblup = F, 
+    basename = "", ...) {
     
     rstI <- gblup(rsp = rsp, data = data, design = design, G = G, vdata = vdata, wt = wt, ...)
     pv <- 0
