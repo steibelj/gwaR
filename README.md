@@ -3,7 +3,7 @@ This package implements GWA from GBLUP model following Gualdron Duarte et al (20
 
 The packagte is under developement, but it is functional.
 
-To install use: `devtools::install_github("steibelj/gwaR")`
+To install use: `devtools::install_github("steibelj/gwaR",build_vignettes=T)`
 
 
 A quick introduction: `vignette("intro-to-gblup")`
