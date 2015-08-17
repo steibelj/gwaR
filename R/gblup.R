@@ -126,9 +126,10 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     
     # prepare for creating index based on variable number of inputs
+    
     ny <- names(y)
     ifelse(is.null(ef), ne <- ny, ne <- rownames(ef))
-    nar <- addnm
+    ifelse((is.null(addnm)),nar<-ny,nar<-addnm)
     
     idx <- Reduce(intersect, list(ny, ne, nar))
     

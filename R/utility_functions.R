@@ -7,7 +7,7 @@
 #'  
 print.gblup <- function(gblup) {
     nms <- all.vars(gblup$model$Vformula)
-    fe <- gblup$coefm[!rownames(gblup$coef) %in% nms, ]
+    fe <- gblup$coefm[!rownames(gblup$coef) %in% nms, ,drop=F]
     tv <- fe[, 1]/fe[, 2]
     pv <- 2 * (1 - pnorm(abs(tv)))
     fe <- data.frame(fe, test.st = tv, p.value = pv)
