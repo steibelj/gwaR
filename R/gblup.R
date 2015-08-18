@@ -109,11 +109,12 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     Ind <- TRUE
     if (!is.null(wt)) {
-        if (dim(wt) == 2) {
+        if (dim(wt) >= 2) {
             if (!rsp %in% colnames(wt)) 
                 stop(paste("name of response variable", resp, "should also be present in wt matrix"))
+            nm<- rownames(wt)
             wt <- wt[, rsp]
-            names(wt) <- rownames(wt)
+            names(wt)<-nm 
             
         }
         fm2 <- update(fm2, ~. + wt)
