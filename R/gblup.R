@@ -109,12 +109,12 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     Ind <- TRUE
     if (!is.null(wt)) {
-        if (dim(wt) >= 2) {
+        if (length(dim(wt)) >= 2) {
             if (!rsp %in% colnames(wt)) 
                 stop(paste("name of response variable", resp, "should also be present in wt matrix"))
-            nm<- rownames(wt)
+            nm <- rownames(wt)
             wt <- wt[, rsp]
-            names(wt)<-nm 
+            names(wt) <- nm
             
         }
         fm2 <- update(fm2, ~. + wt)
@@ -130,7 +130,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     ny <- names(y)
     ifelse(is.null(ef), ne <- ny, ne <- rownames(ef))
-    ifelse((is.null(addnm)),nar<-ny,nar<-addnm)
+    ifelse((is.null(addnm)), nar <- ny, nar <- addnm)
     
     idx <- Reduce(intersect, list(ny, ne, nar))
     
@@ -139,7 +139,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     y <- y[idx]
     # G <- G[idx, idx]
-    ifelse(is.null(ef), NA, ef <- ef[idx, ,drop=FALSE])
+    ifelse(is.null(ef), NA, ef <- ef[idx, , drop = FALSE])
     ifelse(is.null(wt), NA, wt <- diag(wt[idx]))
     
     
@@ -149,8 +149,8 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     }
     
     
-    
-    x <- regress(fm1, fm2, identity = Ind, data = c(y, ef, vdata, wt), ...)  #possible conflict if the user specifies
+    # attach(vdata) attach(ef)
+    x <- regress(fm1, fm2, identity = Ind, ...)  #possible conflict if the user specifies
     # identity in the ...
     
     coefm <- rbind(cbind(x$beta, sqrt(diag(x$beta.cov))), cbind(x$sigma, sqrt(diag(x$sigma.cov))))

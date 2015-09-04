@@ -146,8 +146,8 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
 #'  @return a vector of pvalues with names equal to marker names. Optional output: Manhattan plot and q-qplot of pvalues
 #'  @export
 
-plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALSE, pvalue = 0.05, 
-                      q.qplot = FALSE, chrom = NULL, ...) {
+plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALSE, pvalue = 0.05, q.qplot = FALSE, chrom = NULL, 
+    ...) {
     
     
     # get the significance level
