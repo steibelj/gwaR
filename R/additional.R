@@ -184,19 +184,19 @@ plot.gwas <- function(gwas, correction = "bonf", gpdata = NULL, plotlog10 = FALS
 #'  @return a vector of p-values or log10 p-values
 #'  @export
 
-getpvalue <- function(gwas, log.p = T,is.z=F) {
-
+getpvalue <- function(gwas, log.p = T, is.z = F) {
+    
     if (is.null(gwas)) 
         stop("missing GWAS object")
-    if(is.z) {
-      snpej<-gwas
+    if (is.z) {
+        snpej <- gwas
     } else {
-      if (all(class(gwas) != "gwas")) 
-        stop("object must be of class gwas")
-    # Get the standarized values of the SNP
-      snpej <- gwas[["ghat"]]/sqrt(gwas[["var_ghat"]])
-      names(snpej) <- rownames(gwas)
-    } 
+        if (all(class(gwas) != "gwas")) 
+            stop("object must be of class gwas")
+        # Get the standarized values of the SNP
+        snpej <- gwas[["ghat"]]/sqrt(gwas[["var_ghat"]])
+        names(snpej) <- rownames(gwas)
+    }
     # Calculate the p value
     pval <- (2 - 3 * log.p) * pnorm(abs(snpej), lower.tail = F, log.p = log.p)/(log(10)^log.p) - log.p * log10(2)
     return(pval)

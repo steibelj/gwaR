@@ -97,7 +97,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     if (class(data) == "gpData") {
         y <- na.omit(data$pheno[, rsp, 1])
-        ef <- na.omit(data$covar[, c("id", nms[nms %in% colnames(data$covar)], rnotvd),drop=F])
+        ef <- na.omit(data$covar[, c("id", nms[nms %in% colnames(data$covar)], rnotvd), drop = F])
         rownames(ef) <- ef[, "id"]
     } else {
         y <- data[, rsp]

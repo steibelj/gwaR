@@ -1,6 +1,6 @@
 Package: gwaR
 Imports: 
-    synbreed
+    regress
 Type: Package
 Title: Functions for performing GWA from GBLUP
 Version: 1.0
