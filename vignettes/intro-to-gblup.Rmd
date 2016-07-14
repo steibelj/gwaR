@@ -13,7 +13,7 @@ The package `gwaR` is used to perform genome-wide association using a GBLUP anim
 
 There are two basic functions in `gwar`: `gblup` fits a genomic blup model and `gwas` performs the association testing. The main characteristic of this package are: 
 
-- Accepts `gpData` objects from package `synbreed` as input data. It can also use input objects for `rrblup` package
+- Accepts `gpData` objects from package `synbreed` as input data or it can use a data.frame containing phenotypes and covariates such as those used for the `rrblup` package
 - Uses REML engine from package `regress` to fit gblup models
 - It accepts any general linear model specification for fixed and random effects
 - It implements proprietary code to estimate SNP effects and to perform tests for GWA
@@ -96,11 +96,9 @@ We will use a toy dataset from the MSUPRP population to illustrate the use of `g
 ```{r}
 library(gwaR)
 library(regress)
-library(synbreed)
 data("MSUPRP_sample")
 data("Z_G")
 
-summary(MSUPRP_sample)
 dim(Z_thin)
 dim(A)
 ```

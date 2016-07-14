@@ -1,5 +1,5 @@
 Package: gwaR
-Imports: 
+Imports:
     regress
 Type: Package
 Title: Functions for performing GWA from GBLUP
@@ -15,5 +15,6 @@ Description: A set of functions to perform genomewide association tests
     from GBLUP fits by back transforming animal effect into SNP effects.
 License: What license is it under?
 Suggests: testthat,
-    knitr
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
