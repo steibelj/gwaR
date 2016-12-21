@@ -7,7 +7,6 @@
 #' @param G a proportional covariance for genetics effects being predicted. 
 #' @param vdata a list with proportional covariance matrices of additional random effects (not included in data)
 #' @param wt a vector of weigths (proportional to diagonals of residual covariance matrix), or a matrix of weights with anmimals in rows and response variables in columns
-#' @param Res a logical value to indicate if a residual varaiance should be fit. It is T by default and it can be set to F if a proportional residual covariance matrix is provided.
 #' @param ... additional parameters for regress function
 
 #' @return an object of the class gblup: a list the following components
@@ -26,11 +25,11 @@
 #'}
 #'  @export
 
-gblup <- function(rsp, data, design, G, vdata = NULL, wt = NULL, Res = T, ...) UseMethod("gblup")
+gblup <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) UseMethod("gblup")
 
 #'  @rdname gblup
 #'  @export
-gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, Res = T, ...) {
+gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     if (!is.matrix(G)) 
         stop("G should be a (relationship) matrix")
@@ -107,9 +106,8 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, Res = T
         excols <- c(nms, rnotvd)
         ef <- na.omit(data[, excols, drop = F])
     }
-  
-    Ind <- Res
     
+    Ind <- TRUE
     if (!is.null(wt)) {
         if (length(dim(wt)) >= 2) {
             if (!rsp %in% colnames(wt)) 
@@ -163,7 +161,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, Res = T
     # ratio test save QVQ'
     
     rst <- list(name = rsp, llik = x$llik, cycle = x$cycle, Q = x$Q, V = x$Sigma, Vinv = x$W, sigma = x$sigma, coefm = coefm, 
-        model = x$model, ehat = y - x$fitted, pos = x$pos)
+        model = x$model, V.CV=x$sigma.cov,ehat = y - x$fitted, pos = x$pos)
     class(rst) <- "gblup"
     return(rst)
 } 
