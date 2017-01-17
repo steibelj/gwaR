@@ -125,7 +125,7 @@ manhattan_plot <- function(pvalues, map, threshold = 0.01, col = c("black", "red
     }
     if (length(col) < 2) 
         stop("two colors are needed in the color vector")
-    mps <- as.numeric(as.factor(map$chr))
+    mps <- as.numeric(as.character(map$chr))
     plot(-log(pvalues, 10), pch = 20, col = col[(mps%%2) + 1], ylab = "-log10-pvalue", xlab = "chr", ..., axes = F)
     axis(2)
     lns <- (by(map, map$chr, nrow))
