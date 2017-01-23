@@ -23,6 +23,7 @@
 #'    \item{\code{ehat}} {vector of residuals}
 #'    \item{\code{pos}} {see regress}
 #'}
+#'
 #'  @export
 
 gblup <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) UseMethod("gblup")
@@ -161,7 +162,7 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     # ratio test save QVQ'
     
     rst <- list(name = rsp, llik = x$llik, cycle = x$cycle, Q = x$Q, V = x$Sigma, Vinv = x$W, sigma = x$sigma, coefm = coefm, 
-        model = x$model, V.CV=x$sigma.cov,ehat = y - x$fitted, pos = x$pos)
+        model = x$model, ehat = y - x$fitted, pos = x$pos)
     class(rst) <- "gblup"
     return(rst)
 } 
