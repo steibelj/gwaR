@@ -135,16 +135,6 @@ anova.gblup <- function(gblup) {
 #'  
 
 varcomp <- function(gblup) {
-    if (class(gblup) != "gblup") 
-        stop("object has to be of class gblup")
-    nms <- all.vars(gblup$model$Vformula)
-    re <- gblup$coefm[rownames(gblup$coef) %in% nms, ]
-    h2 <- re[, 1]/sum(re[, 1])
-    re <- data.frame(re, prop.var = h2)
-    return(re)
-} 
-
-varcomp <- function(gblup) {
       if (class(gblup) != "gblup") 
             stop("object has to be of class gblup")
       nms <- all.vars(gblup$model$Vformula)

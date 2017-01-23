@@ -18,8 +18,8 @@
 #'    \item{\code{varg}} {estimated SNP effect variances}
 #'}
 #' @return if {\code{returnz=F}} the t-statistic {\code{t=ghat/sqrt(varg)}} 
-#'  @seealso \code{\link{gblup}} \code{\link{gwas}} \code{\link{lrt}}
-#'  @export
+#' @seealso \code{\link{gblup}} \code{\link{gwas}} \code{\link{lrt}}
+#' @export
 
 run.gwa <- function(rsp, data, design, G, vdata = NULL, wt = NULL, x, LRT = F, threshold = 0.01, returnz = T, saveblup = F, 
     basename = "", ...) {
@@ -61,8 +61,8 @@ run.gwa <- function(rsp, data, design, G, vdata = NULL, wt = NULL, x, LRT = F, t
 #'    \item{\code{llik}} {Log-likelihood of full model, reduced model and their difference}
 #'    \item{\code{VARS}} {a dataframe with variance component estimates under reduced and full model}
 #'}
-#'  @seealso \code{\link{gblup}} \code{\link{gwas}}
-#'  @export
+#' @seealso \code{\link{gblup}} \code{\link{gwas}}
+#' @export
 
 lrt <- function(gb) {
     strt <- gb$sigma[names(gb$sigma) != "G"]
@@ -93,8 +93,8 @@ lrt <- function(gb) {
 #'    \item{\code{llik}} {Log-likelihood of full model, reduced model and their difference}
 #'    \item{\code{VARS}} {a dataframe with variance component estimates under reduced and full model}
 #'}
-#'  @seealso \code{\link{gblup}} \code{\link{lrt}}
-#'  @export
+#' @seealso \code{\link{gblup}} \code{\link{lrt}}
+#' @export
 test.peak <- function(gb, x, peak_pos = NULL) {
     if (is.null(peak_pos)) {
         z <- x
