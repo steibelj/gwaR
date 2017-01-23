@@ -134,8 +134,8 @@ plot(gw,gpdata=MSUPRP_sample,plotlog10=T,chrom=c(1,17),pvalue=0.0001,correction=
 
 
 ###simultaneous GWA and GBLUP
-```{r}
-gwad<-run.gwa("driploss", data=MSUPRP_sample, design=design_G, A, x=t(Z_thin),returnz = F, pos=c(T,T))
-head(gwad)
-```
-This functions has many options, for example, it is possible to perform LRT to test significance of h^2 before performing the GWA scan and it allows returning the vector of SNP z-scores (instead of the estimate of SNP effects and variances). It allso can save a summary of the gblup fit to the hard drive.
+#```{r}
+#gwad<-run.gwa("driploss", data=MSUPRP_sample, design=design_G, A, #x=t(Z_thin),returnz = F, pos=c(T,T))
+#head(gwad)
+#```
+#This functions has many options, for example, it is possible to #perform LRT to test significance of h^2 before performing the GWA #scan and it allows returning the vector of SNP z-scores (instead of #the estimate of SNP effects and variances). It allso can save a #summary of the gblup fit to the hard drive.
