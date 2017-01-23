@@ -8,15 +8,15 @@
 #'    \item {\code{ghat}} {estimated SNP effects} 
 #'    \item{\code{varg}} {estimated SNP effect variances}
 #'}
-#'  @seealso \code{\link{summary.gwas}} \code{\link{plot.gwas}}
-#'  @export
+#' @seealso \code{\link{summary.gwas}} \code{\link{plot.gwas}}
+#' @export
 
 
 gwas <- function(gblup, x) UseMethod("gwas")
 
 
-#'  @rdname gwas
-#'  @export
+#' @rdname gwas
+#' @export
 
 gwas.default <- function(gblup, x) {
     

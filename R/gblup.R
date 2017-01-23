@@ -24,12 +24,12 @@
 #'    \item{\code{pos}} {see regress}
 #'}
 #'
-#'  @export
+#' @export
 
 gblup <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) UseMethod("gblup")
 
-#'  @rdname gblup
-#'  @export
+#' @rdname gblup
+#' @export
 gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     if (!is.matrix(G)) 
