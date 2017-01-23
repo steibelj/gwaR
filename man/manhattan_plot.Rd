@@ -22,7 +22,6 @@ manhattan_plot(pvalues, map, threshold = 0.01, col = c("black", "red"),
 }
 \value{
 NULL. A graphic is be generated
- @export
 }
 \description{
 A function to create manhattan plots from GWA and QTL mapping analyses.

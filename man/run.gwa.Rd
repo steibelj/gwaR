@@ -39,11 +39,12 @@ if {\code{returnz=F}}, an object of the class GWAS: a list with two vectors
    \item{\code{varg}} {estimated SNP effect variances}
 }
 
-if {\code{returnz=F}} the t-statistic {\code{t=ghat/sqrt(varg)}} 
- @seealso \code{\link{gblup}} \code{\link{gwas}} \code{\link{lrt}}
- @export
+if {\code{returnz=F}} the t-statistic {\code{t=ghat/sqrt(varg)}}
 }
 \description{
 function for fitting a  \code{\link{gblup}} model followed by \code{\link{gwas}} analysis.
+}
+\seealso{
+\code{\link{gblup}} \code{\link{gwas}} \code{\link{lrt}}
 }
 

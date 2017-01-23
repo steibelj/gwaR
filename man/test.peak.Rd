@@ -20,10 +20,11 @@ a list with elements
    \item{\code{llik}} {Log-likelihood of full model, reduced model and their difference}
    \item{\code{VARS}} {a dataframe with variance component estimates under reduced and full model}
 }
- @seealso \code{\link{gblup}} \code{\link{lrt}}
- @export
 }
 \description{
 function for performing likelihood ratio test  \code{h_peak^2=0} of QTL peak using a \code{\link{gblup}} model
+}
+\seealso{
+\code{\link{gblup}} \code{\link{lrt}}
 }
 

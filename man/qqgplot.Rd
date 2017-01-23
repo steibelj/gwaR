@@ -15,7 +15,6 @@ qqgplot(pvector, add = F, ...)
 }
 \value{
 NULL. A graphic will be generated
- @export
 }
 \description{
 A function to create q-qplots of pvalues from high dimensional test (e.g: GWA, Differential expression analyses).
