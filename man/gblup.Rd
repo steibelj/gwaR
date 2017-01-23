@@ -2,9 +2,12 @@
 % Please edit documentation in R/gblup.R
 \name{gblup}
 \alias{gblup}
+\alias{gblup.default}
 \title{prediction of genomic breeding values for use in GWA}
 \usage{
 gblup(rsp, data, design, G, vdata = NULL, wt = NULL, ...)
+
+\method{gblup}{default}(rsp, data, design, G, vdata = NULL, wt = NULL, ...)
 }
 \arguments{
 \item{rsp}{a string with the name of the response variable if a vector, first element is used.}
@@ -38,8 +41,6 @@ an object of the class gblup: a list the following components
    \item{\code{ehat}} {vector of residuals}
    \item{\code{pos}} {see regress}
 }
-
- @export
 }
 \description{
 A class for GBLUP prediction to implement GWA.

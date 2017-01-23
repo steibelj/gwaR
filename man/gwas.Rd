@@ -2,9 +2,12 @@
 % Please edit documentation in R/GWAS.R
 \name{gwas}
 \alias{gwas}
+\alias{gwas.default}
 \title{Estimation of SNP effects and their variances}
 \usage{
 gwas(gblup, x)
+
+\method{gwas}{default}(gblup, x)
 }
 \arguments{
 \item{gblup}{An object of class gblup}
@@ -17,10 +20,11 @@ an object of the class GWAS: a list with two vectors
    \item {\code{ghat}} {estimated SNP effects} 
    \item{\code{varg}} {estimated SNP effect variances}
 }
- @seealso \code{\link{summary.gwas}} \code{\link{plot.gwas}}
- @export
 }
 \description{
 A class for GWA from a GBLUP object.
+}
+\seealso{
+\code{\link{summary.gwas}} \code{\link{plot.gwas}}
 }
 
