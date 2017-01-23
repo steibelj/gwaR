@@ -78,7 +78,7 @@ summary.gwas <- function(gwas, pvalue = c(0.001, 0.01, 0.025, 0.05, 0.1), correc
 #' @param add a logical value, T: adds to existing graphic or F: creates a new graphic
 #' @param ... additional parameters to parse to plot function
 #' @return NULL. A graphic will be generated
-#'  @export
+#' @export
 
 qqgplot = function(pvector, add = F, ...) {
     o = -log10(sort(pvector, decreasing = F))
@@ -101,7 +101,7 @@ qqgplot = function(pvector, add = F, ...) {
 #' @param chrom a vector of chromosomal names to be included in the graphic by default all chromosomes are included 
 #' @param ... additional graphical parameters used by plot 
 #' @return NULL. A graphic is be generated
-#'  @export
+#' @export
 
 manhattan_plot<-function (pvalues, map, threshold = 0.01, col = c("black", "red"), 
                           chrom = NULL, ...) 
