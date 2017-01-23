@@ -160,9 +160,8 @@ gblup.default <- function(rsp, data, design, G, vdata = NULL, wt = NULL, ...) {
     
     # add an option to compact the output or add the compact version to the summary and withi n the summary add the likihood
     # ratio test save QVQ'
-    
     rst <- list(name = rsp, llik = x$llik, cycle = x$cycle, Q = x$Q, V = x$Sigma, Vinv = x$W, sigma = x$sigma, coefm = coefm, 
-        model = x$model, ehat = y - x$fitted, pos = x$pos)
+                       model = x$model, V.CV=x$sigma.cov,ehat = y - x$fitted, pos = x$pos)
     class(rst) <- "gblup"
     return(rst)
 } 

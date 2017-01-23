@@ -143,3 +143,29 @@ varcomp <- function(gblup) {
     re <- data.frame(re, prop.var = h2)
     return(re)
 } 
+
+varcomp <- function(gblup) {
+      if (class(gblup) != "gblup") 
+            stop("object has to be of class gblup")
+      nms <- all.vars(gblup$model$Vformula)
+      re <- gblup$coefm[rownames(gblup$coef) %in% nms, ]
+      h2 <- re[, 1]/sum(re[, 1])
+      se<-sevr(gblup)
+      re <- data.frame(re, prop.var = h2,se=se)
+      return(re)
+  } 
+
+#standard error of variance ratios
+
+sevr<-function(obj){
+      propvar<-obj$sigma/sum(obj$sigma)
+      vrs<-diag(obj$V.CV)
+      tv<-sum(vrs)
+      cvs<-rowSums(obj$V.CV)
+      T1<-propvar^2
+      T2<-vrs/obj$sigma^2
+      T3<-tv/sum(obj$sigma)^2
+      T4<-2*cvs/(obj$sigma*sum(obj$sigma))
+      res<-sqrt(T1*(T2+T3-T4))
+      return(res)
+}
