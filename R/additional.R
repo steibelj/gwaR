@@ -227,10 +227,16 @@ IC_base<-function(gbl,Z=NULL,map=NULL){
   } else{
     design=c(gbl$model$formula,update(gbl$model$Vformula,.~.-G-In-wt))
   }
-  dts<-as.data.frame(gbl$model[names(gbl$model)%in%fenames])
   
-  vdata<-gbl$model[names(gbl$model)%in%rnames]
+  rmname<-rnames[sapply(gbl$model[rnames],is.matrix)]
+  rvname<-rnames[!sapply(gbl$model[rnames],is.matrix)]
   
+  dts<-as.data.frame(gbl$model[names(gbl$model)%in%c(fenames,rvname)])
+  
+  vdata<-gbl$model[names(gbl$model)%in%rmname]
+  
+  
+
   lns<-nrow(dts)
   id<-sample(x = c(T,F),lns,replace = T)
   dt1<-dts[id,,drop=F]
@@ -331,7 +337,7 @@ find_peaks <- function(gbl,gwa,Z,map,threshold=0.95,criteria=c("qvalue","bonferr
   if (class(gbl)!="gblup"){
     stop("gbl should be of class gblup")
   }
-  if((rownames(gwa)!=colnames(Z))|((rownames(gwa)!=rownames(map)))){
+  if(sum((rownames(gwa)!=colnames(Z))|((rownames(gwa)!=rownames(map))))>0){
     stop("map, gwa object and Z should have matching row/columns")
   }
   
@@ -361,19 +367,23 @@ find_peaks <- function(gbl,gwa,Z,map,threshold=0.95,criteria=c("qvalue","bonferr
     names(wt)<-colnames(gbl$model$G)
   }
   rnames<-rnames[!rnames%in%c("G","wt","In")]
-  if(all.vars(update(gbl$model$Vformula,.~.-G-In-wt))=="."){
+  if(length(all.vars(update(gbl$model$Vformula,.~.-G-In-wt)))==1){
     design=bsf
   } else{
     design=c(bsf,update(gbl$model$Vformula,.~.-G-In-wt))
   }
   
-  dts<-as.data.frame(gbl$model[names(gbl$model)%in%fenames])
+  rmname<-rnames[sapply(gbl$model[rnames],is.matrix)]
+  rvname<-rnames[!sapply(gbl$model[rnames],is.matrix)]
+  
+  dts<-as.data.frame(gbl$model[names(gbl$model)%in%c(fenames,rvname)])
   tobind<-Z[rownames(dts),minv[mins<threshold],drop=F]
   colnames(tobind)<-minv[mins<threshold]
   dts<-cbind(dts,tobind)
   
   
-  vdata<-gbl$model[names(gbl$model)%in%rnames]
+  
+  vdata<-gbl$model[names(gbl$model)%in%rmname]
   
   nrw1<-gblup("y",data=dts,design=design,G=gbl$model$G,vdata=vdata,wt=wt,pos=gbl$pos,start=gbl$sigma)
   t1<-gwas(nrw1,t(Z))
