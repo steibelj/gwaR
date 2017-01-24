@@ -222,7 +222,7 @@ IC_base<-function(gbl,Z=NULL,map=NULL){
     names(wt)<-colnames(gbl$model$G)
   }
   rnames<-rnames[!rnames%in%c("G","wt","In")]
-  if(all.vars(update(gbl$model$Vformula,.~.-G-In-wt))=="."){
+  if(length(all.vars(update(gbl$model$Vformula,.~.-G-In-wt)))==1){
     design=gbl$model$formula
   } else{
     design=c(gbl$model$formula,update(gbl$model$Vformula,.~.-G-In-wt))
