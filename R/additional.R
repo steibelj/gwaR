@@ -228,8 +228,8 @@ IC_base<-function(gbl,Z=NULL,map=NULL){
     design=c(gbl$model$formula,update(gbl$model$Vformula,.~.-G-In-wt))
   }
   
-  rmname<-rnames[sapply(gbl$model[rnames],is.matrix)]
-  rvname<-rnames[!sapply(gbl$model[rnames],is.matrix)]
+  rmname<-rnames[unlist(sapply(gbl$model[rnames],is.matrix))]
+  rvname<-rnames[unlist(!sapply(gbl$model[rnames],is.matrix))]
   
   dts<-as.data.frame(gbl$model[names(gbl$model)%in%c(fenames,rvname)])
   
@@ -373,8 +373,8 @@ find_peaks <- function(gbl,gwa,Z,map,threshold=0.95,criteria=c("qvalue","bonferr
     design=c(bsf,update(gbl$model$Vformula,.~.-G-In-wt))
   }
   
-  rmname<-rnames[sapply(gbl$model[rnames],is.matrix)]
-  rvname<-rnames[!sapply(gbl$model[rnames],is.matrix)]
+  rmname<-rnames[unlist(sapply(gbl$model[rnames],is.matrix))]
+  rvname<-rnames[unlist(!sapply(gbl$model[rnames],is.matrix))]
   
   dts<-as.data.frame(gbl$model[names(gbl$model)%in%c(fenames,rvname)])
   tobind<-Z[rownames(dts),minv[mins<threshold],drop=F]
