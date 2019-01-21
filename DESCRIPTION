@@ -1,6 +1,5 @@
 Package: gwaR
-Imports:
-    regress,stats
+Imports: regress,stats
 Type: Package
 Title: Functions for performing GWA from GBLUP
 Version: 1.0
