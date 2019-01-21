@@ -4,17 +4,11 @@ Type: Package
 Title: Functions for performing GWA from GBLUP
 Version: 1.0
 Date: 2015-07-13
-Authors@R: c(person("Juan","Steibel",email="steibelj@msu.edu",role=c("cre","aut")),
-    person("Deborah","Velez",role=c("aut")),
-    person("Sebastian","Casiro",role=c("aut")),
-    person("Yeni","Bernal",role=c("aut")),
-    person("Jose","Gualdron",role=c("aut")))
+Authors@R: c(person("Juan","Steibel",email="steibelj@msu.edu",role=c("cre","aut")), person("Deborah","Velez",role=c("aut")), person("Sebastian","Casiro",role=c("aut")), person("Yeni","Bernal",role=c("aut")), person("Jose","Gualdron",role=c("aut")))
 Maintainer: Juan P. Steibel <steibelj@msu.edu>
 Description: A set of functions to perform genomewide association tests
     from GBLUP fits by back transforming animal effect into SNP effects.
 License: What license is it under?
-Suggests:
-    testthat,
-    knitr
+Suggests: testthat, knitr
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
